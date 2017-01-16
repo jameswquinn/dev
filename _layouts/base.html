@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="{% if page.description %}{{ page.description | truncate: 200 }}{% else %}{{ site.description | truncate: 200 }}{% endif %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% if page.title %}{{ page.title | truncate: 70 }}{% else %}{{ site.title | truncate: 70 }}{% endif %}</title>
+    <!-- Disable tap highlight on IE -->
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="msapplication-config" content="browserconfig.xml" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="assets/icons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="assets/icons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="manifest.json">
+    <link rel="mask-icon" href="assets/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Open Graph -->
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}" />
+    <meta property="og:description" content="{% if page.excerpt %}{{ page.excerpt | strip_html }}{% else %}{{ site.description | markdownify | strip_html }}{% endif %}" />
+    <meta property="og:site_name" content="{{ site.title }}" />
+    <meta property="og:url" content="{{ page.url | prepend: site.baseurl | prepend: site.url }}" /> {% if page.image %}
+    <meta property="og:image" content="{{ page.image | prepend: '/' | prepend: site.baseurl | prepend: site.url }}" /> {% endif %} {% if site.twitter_username %}
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@{{ site.twitter_username }}" />
+    <meta name="twitter:creator" content="@{{ site.twitter_creator }}">
+    <meta name="twitter:title" content="{% if page.title %}{{ page.title | truncate: 70 }}{% else %}{{ site.title | truncate: 70 }}{% endif %}" />
+    <meta name="twitter:description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | truncate: 200 }}{% else %}{{ site.description | markdownify | strip_html | truncate: 200 }}{% endif %}" /> {% if page.image %}
+    <meta name="twitter:image" content="{{ page.image | prepend: '/' | prepend: site.baseurl | prepend: site.url }}" />
+    <meta name="twitter:image:alt" content="{{ page.alt }}" /> {% endif %} {% endif %}
+    <link rel="canonical" href="{{ page.url | prepend: site.baseurl | prepend: site.url }}">
+    <!-- Load Stylesheets -->
+    <link rel="stylesheet" href="assets/styles/ayu_main.min.css" />
+    <link rel="stylesheet" href="assets/styles/ayu_app.min.css" />
+</head>
+<body>
+<section class="site-nav">
+<header id="header" class="header header--fixed navbar-default" role="banner">
+    <div class="container">
+
+        <nav id="nav" class="brackets" role="navigation">
+            <ul class="nav">
+                {% assign navigation_pages = site.html_pages | sort: 'navigation_weight' %}{% for nav-item in navigation_pages %}{% if nav-item.navigation_weight %}
+                <li class="nav__item ">
+                    <a {% if nav-item.url == page.url %} class="header__link active" {% else %} class="header__link"{% endif %} href="{{ nav-item.url | prepend: site.baseurl | prepend: site.url }}">
+                        <span class="complimentary">.{{ nav-item.navigation_title }}</span>
+                    </a>
+                </li>
+                {% endif %}
+                {% endfor %}
+                <li class="nav__item">
+                    <a class="header__link" href="http://www.twitter.com/WickyNilliams">
+                        <span class="complimentary">@{{ site.twitter_creator }}</span>
+                    </a>
+                </li>
+                <li class="nav__item nav__hamburger">
+                    <a class="header__link" href="#">
+                      
+                        <div class="hamburger hamburger--Elastic hamburger__icon">
+  <div class="hamburger-box">
+    <div class="hamburger-inner"></div>
+  </div>
+</div>
+                      
+                    
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+
+        <a href="index.html" class="brand header__link">
+            <span class="brand__forename">ayuplus</span>
+            <span class="brand__surname">.io</span>
+        </a>
+    </div>
+</header>
+</section>    
+{{ content }}
+{% include footer.html %}
+<!-- Load Scripts -->
+<script src="assets/scripts/zepto.min.js"></script>
+<script src="assets/scripts/ayuplus_main.min.js"></script>
+<script>
+(function() {
+    var header = document.querySelector("#header");
+
+    if (window.location.hash) {
+        header.classList.add("headroom--unpinned");
+    }
+
+    var headroom = new Headroom(header, {
+        tolerance: {
+            down: 10,
+            up: 20
+        },
+        offset: 205
+    });
+    headroom.init();
+
+}());
+
+// If using jQuery
+// $('.masthead-video').coverVid(1920, 1080);
+// If not using jQuery (Native Javascript)
+coverVid(document.querySelector('.masthead-video'), 1920, 1080);
+fullscreen();
+$(window).resize(fullscreen);
+$(window).scroll(headerParallax);
+
+function fullscreen() {
+    var masthead = $('.masthead');
+    var windowH = $(window).height();
+    var windowW = $(window).width();
+
+    masthead.width(windowW);
+    masthead.height(windowH);
+}
+
+function headerParallax() {
+    var st = $(window).scrollTop();
+    var headerScroll = $('.masthead h1');
+
+    if (st < 500) {
+        headerScroll.css('opacity', 1 - st / 1000);
+        $('.masthead-arrow ').css('opacity', 0.5 - st / 250);
+        headerScroll.css({
+            '-webkit-transform': 'translateY(' + st / 7 + '%)',
+            '-ms-transform': 'translateY(' + st / 7 + '%)',
+            transform: 'translateY(' + st / 7 + '%)'
+        });
+    }
+}
+
+window.bLazy = new Blazy({
+    container: '.container',
+    success: function(element) {
+        console.log("Element loaded: ", element.nodeName);
+    }
+});
+$(document).ready(function() {
+    $(window).scroll(function() {
+        var scrollPos = $(window).scrollTop(),
+            navbar = $('.navbar-default');
+
+        if (scrollPos > 20) {
+            navbar.addClass('change-color');
+        } else {
+            navbar.removeClass('change-color');
+        }
+    });
+});
+    
+$(document).ready(function() {
+    $(window).scroll(function() {
+        var scrollPos = $(window).scrollTop(),
+            navicon = $('.hamburger__icon');
+        if (scrollPos > 20) {
+            navicon.addClass('change-navicon');
+        } else {
+            navicon.removeClass('change-navicon');
+        }
+    });
+});
+</script>
+<script>
+  var $hamburger = $(".hamburger");
+  $hamburger.on("click", function(e) {
+    $hamburger.toggleClass("is-active");
+    // Do something else, like open/close menu
+  });
+</script>
+</body>
+</html>

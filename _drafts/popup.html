@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>youtube player pop up</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/normalize.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.2.4/milligram.min.css">
+</head>
+
+<body>
+    <style>
+        .u-modal {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(12, 13, 16, 0.85);
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+            opacity: 0;
+            pointer-events: none;
+            -webkit-transition: all 150ms ease-in;
+            transition: all 150ms ease-in
+        }
+        .u-modal.is-visible {
+            pointer-events: auto;
+            opacity: 1
+        }
+        .u-modal-box {
+            width: 96%;
+            height: auto;
+            max-height: 90vh;
+            overflow-y: auto;
+            max-width: 780px;
+            padding: 16px;
+            color: #fff;
+            background-color: #0c0d10;
+            position: relative;
+            top: 50%;
+            left: 50%;
+            z-index: 10;
+            -webkit-transform: translate(-50%, -55%);
+            transform: translate(-50%, -55%);
+            -webkit-transition: -webkit-transform 250ms 100ms linear;
+            transition: -webkit-transform 250ms 100ms linear;
+            transition: transform 250ms 100ms linear;
+            transition: transform 250ms 100ms linear, -webkit-transform 250ms 100ms linear
+        }
+        .u-modal-box:before,
+        .u-modal-box:after {
+            content: " ";
+            display: table
+        }
+        .u-modal-box:after {
+            clear: both
+        }
+        .modal-box--fullscreen {
+            width: 100%;
+            height: 100%;
+            max-width: 100%;
+            padding: 44px
+        }
+        .u-modal.is-visible .u-modal-box {
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%)
+        }
+        .u-modal-content {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-flow: row wrap;
+            flex-flow: row wrap;
+            margin-top: 16px;
+            margin-bottom: 16px
+        }
+        .u-modal-column,
+        .u-modal-column--full {
+            -webkit-transition: opacity 500ms ease-in, -webkit-transform 500ms ease-in;
+            transition: opacity 500ms ease-in, -webkit-transform 500ms ease-in;
+            transition: opacity 500ms ease-in, transform 500ms ease-in;
+            transition: opacity 500ms ease-in, transform 500ms ease-in, -webkit-transform 500ms ease-in
+        }
+        [data-effect^="slide"] {
+            opacity: 0;
+            -webkit-transition: opacity 550ms 150ms ease-in, -webkit-transform 600ms ease-in;
+            transition: opacity 550ms 150ms ease-in, -webkit-transform 600ms ease-in;
+            transition: transform 600ms ease-in, opacity 550ms 150ms ease-in;
+            transition: transform 600ms ease-in, opacity 550ms 150ms ease-in, -webkit-transform 600ms ease-in
+        }
+        [data-effect="slide-up"] {
+            -webkit-transform: translateY(30px);
+            transform: translateY(30px)
+        }
+        [data-effect="slide-down"] {
+            -webkit-transform: translateY(-30px);
+            transform: translateY(-30px)
+        }
+        .u-modal.is-visible [data-effect^="slide-"] {
+            opacity: 1;
+            -webkit-transform: translateY(0);
+            transform: translateY(0)
+        }
+        .u-modal-title {
+            font-size: 20px;
+            color: currentColor
+        }
+        .u-modal-txt {
+            margin-top: 0;
+            margin-bottom: 0;
+            font-size: 16px;
+            color: currentColor
+        }
+        .u-modal-title + .u-modal-txt,
+        .u-modal-txt + .u-modal-txt {
+            margin-top: 16px
+        }
+        .u-modal-title:last-of-type,
+        .u-modal-txt:last-of-type {
+            margin-bottom: 16px
+        }
+        .u-modal-txt--animated {
+            opacity: 0;
+            -webkit-transition: -webkit-transform 400ms 200ms ease-in;
+            transition: -webkit-transform 400ms 200ms ease-in;
+            transition: transform 400ms 200ms ease-in;
+            transition: transform 400ms 200ms ease-in, -webkit-transform 400ms 200ms ease-in;
+            -webkit-transform: translateY(6px);
+            transform: translateY(6px)
+        }
+        .u-modal-txt--animated:nth-child(1) {
+            -webkit-transition: all 300ms 300ms ease-in;
+            transition: all 300ms 300ms ease-in
+        }
+        .u-modal-txt--animated:nth-child(2) {
+            -webkit-transition: all 400ms 300ms ease-in;
+            transition: all 400ms 300ms ease-in
+        }
+        .u-modal-txt--animated:nth-child(3) {
+            -webkit-transition: all 500ms 300ms ease-in;
+            transition: all 500ms 300ms ease-in
+        }
+        .u-modal.is-visible .u-modal-txt--animated {
+            opacity: 1;
+            -webkit-transform: translateY(0);
+            transform: translateY(0)
+        }
+        @media (min-width: 640px) {
+            .u-modal-box {
+                padding: 32px
+            }
+            .u-modal-box--fullscreen {
+                padding: 44px
+            }
+            .u-modal-txt {
+                font-size: 20px
+            }
+        }
+        @media (min-width: 768px) {
+            .u-modal-btn {
+                font-size: 1em
+            }
+            .u-modal-content {
+                margin-top: 24px;
+                margin-bottom: 24px
+            }
+            .u-modal-column--full {
+                -ms-flex-preferred-size: 100%;
+                flex-basis: 100%
+            }
+            .u-modal-column {
+                -ms-flex-preferred-size: 30%;
+                flex-basis: 30%
+            }
+            .u-modal-column + .u-modal-column {
+                -ms-flex-preferred-size: 70%;
+                flex-basis: 70%;
+                padding-left: 16px
+            }
+            .u-modal-title {
+                font-size: 24px
+            }
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+        }
+        .video-container .video,
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+
+    <div class="container">
+
+        <h2>Emma Louise: Jungle</h2>
+        <div class="video-container">
+            <div class="video" id=youtube0></div>
+        </div>
+        <hr>
+        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. </p>
+        <button data-js="open-u-modal">were are the controls?</button>
+    </div>
+    <script>
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        var player;
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtube0', {
+                height: '100%',
+                width: '100%',
+                fitToBackground: true,
+                videoId: 'o-2MANnMx80',
+                playerVars: {
+                    'autoplay': 0,
+                    'controls': 0,
+                    'autohide': 1,
+                    'enablejsapi': 1,
+                    'loop': 1,
+                    'fs': 1,
+                    'modestbranding': 1,
+                    'showinfo': 0,
+                    'color': 'white',
+                    'theme': 'light',
+                    'rel': 0
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+        function onPlayerReady(event) {}
+    </script>
+
+
+
+
+
+    <!-- MODAL -->
+    <div class="u-modal">
+        <div class="u-modal-box">
+            <!-- .modal-box--fullscreen -->
+            <div class="u-modal-content">
+                <div class="u-modal-column--full u-modal-column--animated" data-effect="slide-up">
+                    <div class="container">
+                        <h2><strong>youtube video player</strong></h2>
+                        <table>
+
+                            <thead>
+
+
+
+                                <tr>
+                                    <th>Short cut</th>
+                                    <th>meaning</th>
+                                </tr>
+                            </thead>
+
+
+                            <tbody>
+                                <tr>
+                                    <td><strong>J</strong>
+                                    </td>
+                                    <td>Jumps back 10 seconds. Great if you didn’t catch the words.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>K</strong>
+                                    </td>
+                                    <td>Play/Pause. (In case your space bar is broken.)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>L</strong>
+                                    </td>
+                                    <td>Jumps forward 10 seconds. Great if the introduction is taking forever.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>M</strong>
+                                    </td>
+                                    <td>Mute the audio.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>F</strong>
+                                    </td>
+                                    <td>Full screen mode.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>←,&nbsp;→&nbsp;(arrow keys)</strong>
+                                    </td>
+                                    <td>Rewind, fast forward</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Home</strong>
+                                    </td>
+                                    <td>Jumps to the beginning.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>End</strong>
+                                    </td>
+                                    <td>Jumps to the end.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>0, 1, 2, 3,..</strong>
+                                    </td>
+                                    <td>The number keys work, too.
+                                        <br>You can press 0, 1, 2, 3, and so on to jump to points in the video at those percentages in.
+                                        <br>0 means “the beginning.” 1 means “10 percent of the way through.” 2 means “20 percent through,”
+                                        <br>and so on up to 9.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="tar">
+                <button class="button button-outline" data-js="close-u-modal">Got it</button>
+            </div>
+        </div>
+    </div>
+    <!-- MODAL -->
+
+
+    <script>
+        /*
+         * pop-it v1.0
+         * https://github.com/alejandromur/pop-it
+         *
+         * Copyright 2016, alejandro@mamutlove.es
+         *
+         * Licensed under the MIT license:
+         * http://www.opensource.org/licenses/MIT
+         *
+         */
+        ! function(a, b, c) {
+            function d(a, b) {
+                var c;
+                for (c in b) b.hasOwnProperty(c) && (a[c] = b[c]);
+                return a
+            }
+            this.Popit = function() {
+                this.modal = b.querySelector(".u-modal"), this.modal_box = b.querySelector(".u-modal-box"), this.attr_open = "[data-js='open-u-modal']", this.attr_close = "[data-js='close-u-modal']";
+                var a = {
+                    auto: !1,
+                    veil: "active"
+                };
+                arguments[0] && "object" == typeof arguments[0] && (this.options = d(a, arguments[0])), "active" === this.options.veil ? this.able(this.modal, "data-js", "close-u-modal") : this.setTriggers(), this.options.auto === !0 && this.open(event, this.modal)
+            }, Popit.prototype = {
+                setTriggers: function() {
+                    this.modal_open = b.querySelectorAll(this.attr_open), this.modal_close = b.querySelectorAll(this.attr_close), this.attachEvents(this.modal_open, this.modal_close)
+                },
+                attachEvents: function(a, b) {
+                    for (var c = this, d = a.length - 1; d >= 0; d--) a[d].addEventListener("click", function(a) {
+                        a.preventDefault(), c.open(a, c.modal)
+                    }, !1);
+                    for (var d = b.length - 1; d >= 0; d--) b[d].addEventListener("click", function(a) {
+                        a.preventDefault(), c.close(a, c.modal)
+                    }, !1)
+                },
+                able: function(a, b, c) {
+                    a.setAttribute(b, c), this.setTriggers()
+                },
+                open: function(a, b) {
+                    b.classList.add("is-visible")
+                },
+                close: function(a, b) {
+                    a.target.hasAttribute("data-js") && b.classList.remove("is-visible")
+                }
+            }
+        }(window, document);
+    </script>
+    <script>
+        (function() {
+            var p = new Popit({
+                auto: false,
+                veil: "disabled"
+            });
+        }());
+    </script>
+
+</body>
+
+</html>

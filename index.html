@@ -1,0 +1,151 @@
+---
+# You don't need to edit this file, it's empty on purpose.
+# Edit theme's home layout instead if you wanna make some changes
+# See: https://jekyllrb.com/docs/themes/#overriding-theme-defaults
+layout: base
+description:
+title: About Ayuplus - London Based Design Agency | ayuplus.io
+navigation_weight: 1
+branding: true
+# background video at top of page
+bg_image: assets/images/poster.jpg
+bg_video: assets/videos/black
+show_bg_video: true
+image: assets/images/poster.jpg
+alt: We needed an image to demo
+# You don't need to edit sites navigation to added new pages to menu. 
+# Just add "navigation_weight" for position and "navigation_title" for menu title.
+navigation_weight: 1
+navigation_title: home
+youtube: o-2MANnMx80
+---
+
+{% if page.show_bg_video %}{% include masthead.html %}{% endif %}
+<div class="container">
+    <div class="row">
+    <div class="coloum right">
+        <section class="section">
+            <h2 class="">A thriving creative digital media agency</h2>
+            </section>
+    </div>
+    <div class="coloum">
+    <section class="section">
+
+      <h2 style="color:#eee">Who are we?</h2>
+
+
+        <blockquote>
+            <h3>ayu (ˈɑːjuː, ˈaɪuː)</h3>
+
+        <em>noun</em>
+
+            <p><span class="jumbo">&ldquo;</span> a small fish, Plecoglossus altivelis, native to Japan and the surrounding areas, known for the sweetness of its flesh<span class="jumbo">&rdquor;</span> </p>
+            <sub>Collins English Dictionary. Copyright © Harper Collins Publishers</sub>
+        </blockquote>
+         <p><em>Yes, a play on words AYU -- as yet unfinished -- , but it seems fitting. A small fish - agile and fast, is perfect description of us.</em></p>
+
+</section>
+    </div>
+
+</div>
+
+
+
+        
+        <style>
+            .video-container {
+                position: relative;
+                padding-bottom: 56.25%;
+                height: 0;
+                overflow: hidden;
+            }
+            .video-container .video,
+            .video-container iframe {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+
+
+
+<h2>Emma Louise: Jungle</h2>
+    <div class="video-container">
+        <div class="video" id=youtube0></div>
+    </div>
+
+
+
+    <table>
+     
+        <thead>
+            <tr>
+                <th><strong>youtube video player</strong></th>
+                <th></th>
+            </tr>
+            <tr>
+                <th>Short cut</th>
+                <th>meaning</th>
+            </tr>
+        </thead>
+
+        
+        <tbody>
+            <tr>
+                <td><strong>J</strong></td>
+                <td>Jumps back 10 seconds. Great if you didn’t catch the words.</td>
+            </tr>
+            <tr>
+                <td><strong>K</strong>
+                </td>
+                <td>Play/Pause. (In case your space bar is broken.)</td>
+            </tr>
+            <tr>
+                <td><strong>L</strong>
+                </td>
+                <td>Jumps forward 10 seconds. Great if the introduction is taking forever.</td>
+            </tr>
+            <tr>
+                <td><strong>M</strong>
+                </td>
+                <td>Mute the audio.</td>
+            </tr>
+            <tr>
+                <td><strong>F</strong>
+                </td>
+                <td>Full screen mode.</td>
+            </tr>
+            <tr>
+                <td><strong>←,&nbsp;→&nbsp;(arrow keys)</strong>
+                </td>
+                <td>Rewind, fast forward</td>
+            </tr>
+            <tr>
+                <td><strong>Home</strong>
+                </td>
+                <td>Jumps to the beginning.</td>
+            </tr>
+            <tr>
+                <td><strong>End</strong>
+                </td>
+                <td>Jumps to the end.</td>
+            </tr>
+            <tr>
+                <td><strong>0, 1, 2, 3,..</strong>
+                </td>
+                <td>The number keys work, too.
+                    <br>You can press 0, 1, 2, 3, and so on to jump to points in the video at those percentages in.
+                    <br>0 means “the beginning.” 1 means “10 percent of the way through.” 2 means “20 percent through,”
+                    <br>and so on up to 9.</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+<script>
+var tag=document.createElement('script');tag.src="https://www.youtube.com/iframe_api";var firstScriptTag=document.getElementsByTagName('script')[0];firstScriptTag.parentNode.insertBefore(tag,firstScriptTag);var player;function onYouTubeIframeAPIReady(){player=new YT.Player('youtube0',{height:'100%',width:'100%',fitToBackground:true,videoId:'{{ page.youtube }}',playerVars:{'autoplay':0,'controls':0,'autohide':1,'enablejsapi':1,'loop':1,'fs':1,'modestbranding':1,'showinfo':0,'color':'white','theme':'light','rel':0},events:{'onReady':onPlayerReady}});}
+function onPlayerReady(event){}
+</script> 
+

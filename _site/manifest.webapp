@@ -1,0 +1,25 @@
+{
+  "version": "1.0.0",
+  "name": "ayuplus.io",
+  "launch_path": "index.html",
+  "description": "Consulting and creating digital experiences in collaboration with clients and partners.",
+  "icons": {
+    "120": "apple-icon-120x120.png"
+  },
+  "developer": {
+    "name": "",
+    "url": ""
+  },
+  "installs_allowed_from": [
+    "*"
+  ],
+  "default_locale": "en",
+  "permissions": {
+  },
+  "locales": {
+    "en": {
+      "name": "ayuplus.io",
+      "description": "Consulting and creating digital experiences in collaboration with clients and partners."
+    }
+  }
+}

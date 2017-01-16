@@ -1,0 +1,165 @@
+/*!
+ * headroom.js v0.9.3 - Give your page some headroom. Hide your header until you need it
+ * Copyright (c) 2016 Nick Williams - http://wicky.nillia.ms/headroom.js
+ * License: MIT
+ */
+
+.brackets a::before,
+.brackets a::after {
+    display: inline-block;
+    opacity: 0;
+    -webkit-transition: -webkit-transform 0.3s, opacity 0.2s;
+    -moz-transition: -moz-transform 0.3s, opacity 0.2s;
+    transition: transform 0.3s, opacity 0.2s;
+}
+.brackets a::before {
+    /*margin-right: 10px;*/
+    
+    content: '[';
+    -webkit-transform: translateX(20px);
+    -moz-transform: translateX(20px);
+    transform: translateX(20px);
+}
+.brackets a::after {
+    /*margin-left: 10px;*/
+    
+    content: ']';
+    -webkit-transform: translateX(-20px);
+    -moz-transform: translateX(-20px);
+    transform: translateX(-20px);
+}
+.brackets a:hover::before,
+.brackets a:hover::after,
+.brackets a:focus::before,
+.brackets a:focus::after {
+    opacity: 1;
+    -webkit-transform: translateX(0px);
+    -moz-transform: translateX(0px);
+    transform: translateX(0px);
+}
+.nav {
+    padding: 0;
+    list-style: none;
+    margin-bottom: 0;
+    float: right
+}
+.nav__item {
+    display: inline-block
+}
+@media screen and (min-width: 40em) {
+    .nav__item {
+        display: inline-block
+    }
+}
+.nav__item a {
+    display: inline-block;
+    padding: 1em;
+    border: none
+}
+.header__link {
+    color: #A9ABAE;
+    text-decoration: none;
+    border: none;
+    transition: 300ms;
+}
+.header__link:hover,
+.header__link:focus {
+    color: red;
+}
+.header--fixed {
+    position: fixed;
+    z-index: 10;
+    right: 0;
+    left: 0;
+    top: 0
+}
+.brand {
+    display: inline-block;
+    text-decoration: none;
+    padding: 1em 0;
+    color: #fff;
+    -webkit-font-smoothing: antialiased
+}
+.brand__forename {
+    font-weight: bold;
+    color: red
+}
+.brand__surname {
+    font-weight: normal;
+    color: #fff
+}
+.complimentary {
+    display: none
+}
+@media screen and (min-width: 40em) {
+    .complimentary {
+        display: inline
+    }
+}
+.headroom {
+    transition: transform .25s ease-in-out;
+    will-change: transform
+}
+.headroom--pinned {
+    transform: translateY(0)
+}
+.headroom--unpinned {
+    transform: translateY(-100%)
+}
+@media print {
+    * {
+        background: transparent !important;
+        color: #000 !important;
+        box-shadow: none !important;
+        text-shadow: none !important
+    }
+    a,
+    a:visited {
+        text-decoration: underline
+    }
+    a[href]:after {
+        content: " (" attr(href) ")"
+    }
+    abbr[title]:after {
+        content: " (" attr(title) ")"
+    }
+    .ir a:after,
+    a[href^="javascript:"]:after,
+    a[href^="#"]:after {
+        content: ""
+    }
+    pre,
+    blockquote {
+        border: 1px solid #999;
+        page-break-inside: avoid
+    }
+    thead {
+        display: table-header-group
+    }
+    tr,
+    img {
+        page-break-inside: avoid
+    }
+    img {
+        max-width: 100% !important
+    }
+    @page {
+        margin: .5cm
+    }
+    p,
+    h2,
+    h3 {
+        orphans: 3;
+        widows: 3
+    }
+    h2,
+    h3 {
+        page-break-after: avoid
+    }
+    .hide-from-print {
+        display: none
+    }
+}
+.line-through__active {
+    text-decoration: line-through;
+}

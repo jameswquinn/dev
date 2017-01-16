@@ -1,0 +1,28 @@
+<header id="header" class="header header--fixed hide-from-print top_nav__panel" role="banner">
+    <div class="container">
+
+        <nav id="nav" class="brackets" role="navigation">
+            <ul class="nav">
+                {% assign navigation_pages = site.html_pages | sort: 'navigation_weight' %}{% for nav-item in navigation_pages %}{% if nav-item.navigation_weight %}
+                <li class="nav__item ">
+                    <a {% if nav-item.url == page.url %} class="header__link line-through__active" {% else %} class="header__link"{% endif %} href="{{ nav-item.url | prepend: site.baseurl | prepend: site.url }}">
+                        <span class="complimentary">.{{ nav-item.navigation_title }}</span>
+                    </a>
+                </li>
+                {% endif %}
+                {% endfor %}
+                <li class="nav__item">
+                    <a class="header__link" href="http://www.twitter.com/WickyNilliams">
+                        <span class="complimentary">@ayuplus</span>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+
+        <a href="index.html" class="brand header__link">
+            <span class="brand__forename">ayuplus</span>
+            <span class="brand__surname">.io</span>
+        </a>
+    </div>
+</header>
